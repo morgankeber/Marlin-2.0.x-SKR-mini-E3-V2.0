@@ -162,8 +162,14 @@
  * THERMAL_PROTECTION_HYSTERESIS and/or THERMAL_PROTECTION_PERIOD
  */
 #if ENABLED(THERMAL_PROTECTION_HOTENDS)
+  /*
+  // SKR Default
   #define THERMAL_PROTECTION_PERIOD 40        // Seconds
   #define THERMAL_PROTECTION_HYSTERESIS 4     // Degrees Celsius
+  */
+  // Customised (advi3pp & Silverquark):
+  #define THERMAL_PROTECTION_PERIOD 60        // Seconds
+  #define THERMAL_PROTECTION_HYSTERESIS 6     // Degrees Celsius
 
   //#define ADAPTIVE_FAN_SLOWING              // Slow part cooling fan if temperature drops
   #if BOTH(ADAPTIVE_FAN_SLOWING, PIDTEMP)
@@ -182,16 +188,28 @@
    * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
    * below 2.
    */
+  /*
+  // SKR Default
   #define WATCH_TEMP_PERIOD 20                // Seconds
   #define WATCH_TEMP_INCREASE 2               // Degrees Celsius
+  */
+  // Customised (advi3pp & Silverquark)
+  #define WATCH_TEMP_PERIOD 30                // Seconds
+  #define WATCH_TEMP_INCREASE 3               // Degrees Celsius
 #endif
 
 /**
  * Thermal Protection parameters for the bed are just as above for hotends.
  */
 #if ENABLED(THERMAL_PROTECTION_BED)
+  /*
+  // SKR Default
   #define THERMAL_PROTECTION_BED_PERIOD        20 // Seconds
   #define THERMAL_PROTECTION_BED_HYSTERESIS     2 // Degrees Celsius
+  */
+  // Customised (advi3pp)
+  #define THERMAL_PROTECTION_BED_PERIOD        30 // Seconds
+  #define THERMAL_PROTECTION_BED_HYSTERESIS     4 // Degrees Celsius
 
   /**
    * As described above, except for the bed (M140/M190/M303).
@@ -321,7 +339,10 @@
 
 // The number of consecutive low temperature errors that can occur
 // before a min_temp_error is triggered. (Shouldn't be more than 10.)
-//#define MAX_CONSECUTIVE_LOW_TEMPERATURE_ERROR_ALLOWED 0
+//#define MAX_CONSECUTIVE_LOW_TEMPERATURE_ERROR_ALLOWED 0  // SKR Default - disabled
+// Customised: Using advi3pp values
+// advi3 comment: "Wanaho i3 Plus have a lot of electronic noise (conception issue) so enable some wrong readings"
+#define MAX_CONSECUTIVE_LOW_TEMPERATURE_ERROR_ALLOWED 5
 
 // The number of milliseconds a hotend will preheat before starting to check
 // the temperature. This value should NOT be set to the time it takes the
@@ -1082,6 +1103,10 @@
 
 // Add an 'M73' G-code to set the current percentage
 //#define LCD_SET_PROGRESS_MANUALLY
+// Customised (not): 
+// advi3pp - enabled
+// Devault - disabled
+// Leaving disabled
 
 // Show the E position (filament used) during printing
 //#define LCD_SHOW_E_TOTAL
@@ -1551,6 +1576,12 @@
  * axis in the first layer of a print in real-time.
  *
  * Warning: Does not respect endstops!
+ * 
+ * Customised (not)
+ * Default - disabled
+ * advi3pp - enabled
+ * Leaving disabled for now...
+ * All values are as per advi3pp
  */
 //#define BABYSTEPPING
 #if ENABLED(BABYSTEPPING)
@@ -1598,6 +1629,11 @@
  * print acceleration will be reduced during the affected moves to keep within the limit.
  *
  * See https://marlinfw.org/docs/features/lin_advance.html for full instructions.
+ * 
+ * Customised (not):
+ * Default - disabled
+ * advi3pp - enabled, but with "LIN_ADVANCE_K" set to "0.0", so it doesnt do anything?
+ * Leaving disabled
  */
 //#define LIN_ADVANCE
 #if ENABLED(LIN_ADVANCE)
@@ -1891,6 +1927,11 @@
  * enter the serial receive buffer, so they cannot be blocked.
  * Currently handles M108, M112, M410, M876
  * NOTE: Not yet implemented for all platforms.
+ * 
+ * Customised (not):
+ * Default - disabled
+ * advi3pp - enabled
+ * Leaving disabled for now...
  */
 //#define EMERGENCY_PARSER
 
@@ -2035,6 +2076,11 @@
  * Requires an LCD display.
  * Requires NOZZLE_PARK_FEATURE.
  * This feature is required for the default FILAMENT_RUNOUT_SCRIPT.
+ * 
+ * Customised (not):
+ * Deafult - disabled
+ * advi3pp - enabled
+ * ...but requires an LCD screen, so leaving disabled (and unconfigured) for now.
  */
 //#define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
@@ -3499,11 +3545,17 @@
 //
 // M100 Free Memory Watcher to debug memory usage
 //
+// Customised (not):
+// Default - disabled
+// advi3pp - enabled for debugging
 //#define M100_FREE_MEMORY_WATCHER
 
 //
 // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
 //
+// Customised (not):
+// Default - disabled
+// advi3pp - enabled for debugging
 //#define PINS_DEBUGGING
 
 // Enable Marlin dev mode which adds some special commands
