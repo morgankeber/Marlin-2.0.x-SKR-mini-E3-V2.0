@@ -460,7 +460,10 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 275
+//#define HEATER_0_MAXTEMP 275  // SKR Default
+//#define HEATER_0_MAXTEMP 260  // Silverquark
+//#define HEATER_0_MAXTEMP 300  // advi3pp
+#define HEATER_0_MAXTEMP 260  // customised - conservative
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -468,7 +471,10 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      150
+//#define BED_MAXTEMP      150  // SKR Default
+//#define BED_MAXTEMP      110  // Silverquark
+//#define BED_MAXTEMP      180  // advi3pp
+#define BED_MAXTEMP      110  // customised - conservative
 
 //===========================================================================
 //============================= PID Settings ================================
@@ -489,10 +495,20 @@
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
-  // Ultimaker
-  #define DEFAULT_Kp 22.2
-  #define DEFAULT_Ki 1.08
-  #define DEFAULT_Kd 114
+  // Wanhao Duplicator i3 Plus default PID values - Customised (starting with advi3pp values)
+  #define  DEFAULT_Kp 33.41
+  #define  DEFAULT_Ki 1.47
+  #define  DEFAULT_Kd 189.27
+
+  // Wanhao Duplicator i3 Plus default PID values - advi3pp
+  //#define  DEFAULT_Kp 33.41
+  //#define  DEFAULT_Ki 1.47
+  //#define  DEFAULT_Kd 189.27
+
+  // Ultimaker - SKR & Silverquark Default
+  //#define DEFAULT_Kp 22.2
+  //#define DEFAULT_Ki 1.08
+  //#define DEFAULT_Kd 114
 
   // MakerGear
   //#define DEFAULT_Kp 7.0
@@ -524,6 +540,7 @@
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
 //#define PIDTEMPBED
+#define PIDTEMPBED  // Customised - as per advi3pp (default non-enabled)
 
 //#define BED_LIMIT_SWITCHING
 
@@ -539,11 +556,17 @@
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
+  // Customised
+  // Wanhao Duplicator i3 Plus - advi3pp
+  #define DEFAULT_bedKp 333.66
+  #define DEFAULT_bedKi 60.79
+  #define DEFAULT_bedKd 457.83
+
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 10.00
-  #define DEFAULT_bedKi .023
-  #define DEFAULT_bedKd 305.4
+  //#define DEFAULT_bedKp 10.00  // Default
+  //#define DEFAULT_bedKi .023   // Default
+  //#define DEFAULT_bedKd 305.4  // Default
 
   //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   //from pidautotune
@@ -659,6 +682,8 @@
   //#define ENDSTOPPULLDOWN_ZMIN_PROBE
 #endif
 
+/*
+// SKR Default
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define Y_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
@@ -667,6 +692,43 @@
 #define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
+*/
+
+/*
+// Silverquark
+#define X_MIN_ENDSTOP_INVERTING true
+#define Y_MIN_ENDSTOP_INVERTING true
+#define Z_MIN_ENDSTOP_INVERTING true
+#define X_MAX_ENDSTOP_INVERTING true
+#define Y_MAX_ENDSTOP_INVERTING true
+#define Z_MAX_ENDSTOP_INVERTING true
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true
+*/
+
+/*
+// advi3pp
+#define X_MIN_ENDSTOP_INVERTING true
+#define Y_MIN_ENDSTOP_INVERTING true
+#define Z_MIN_ENDSTOP_INVERTING true
+#define X_MAX_ENDSTOP_INVERTING true
+#define Y_MAX_ENDSTOP_INVERTING true
+#if ENABLED(BLTOUCH)
+#define Z_MAX_ENDSTOP_INVERTING false
+#define Z_MIN_PROBE_ENDSTOP_INVERTING false
+#else // @advi3++: Mark II or Mark I no probe
+#define Z_MAX_ENDSTOP_INVERTING true
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true
+#endif
+*/
+
+// Customised - as per Silverquark
+#define X_MIN_ENDSTOP_INVERTING true
+#define Y_MIN_ENDSTOP_INVERTING true
+#define Z_MIN_ENDSTOP_INVERTING true
+#define X_MAX_ENDSTOP_INVERTING true
+#define Y_MAX_ENDSTOP_INVERTING true
+#define Z_MAX_ENDSTOP_INVERTING true
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true
 
 /**
  * Stepper Drivers
@@ -747,14 +809,20 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 93 }
+//#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 93 }  // SKR Default & advi3pp
+//#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 114.13 }  // Silverquark
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 93.0 }  // Customised(?)
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 500, 500, 5, 25 }
+//#define DEFAULT_MAX_FEEDRATE          { 500, 500, 5, 25 }   // SKR Default
+//#define DEFAULT_MAX_FEEDRATE          { 450, 450, 20, 25 }  // advi3pp - a "reasonable default values for Wanhao i3 Plus" apparently
+//#define DEFAULT_MAX_FEEDRATE          { 450, 450, 5, 25 }   // Silverquark
+//#define DEFAULT_MAX_FEEDRATE          {200, 200, 3, 25}     // Random values found whilst googling for "titan" 
+#define DEFAULT_MAX_FEEDRATE          { 450, 450, 20, 25 }    // Customised (advi3pp)
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -767,7 +835,11 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 500, 500, 100, 5000 }
+//#define DEFAULT_MAX_ACCELERATION      { 500, 500, 100, 5000 }    // SKR Default
+//#define DEFAULT_MAX_ACCELERATION      { 1000, 1000, 100, 1000 }  // advi3pp
+//#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 3000 }  // Silverquark
+#define DEFAULT_MAX_ACCELERATION      { 1000, 1000, 100, 1000 }    // Customised (advi3pp)
+
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -782,9 +854,31 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
+/*
+// SKR Default
 #define DEFAULT_ACCELERATION          500    // X, Y, Z and E acceleration for printing moves
 #define DEFAULT_RETRACT_ACCELERATION  500    // E acceleration for retracts
 #define DEFAULT_TRAVEL_ACCELERATION   500    // X, Y, Z acceleration for travel (non printing) moves
+*/
+
+/*
+// advi3pp
+#define DEFAULT_ACCELERATION          800    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  3000   // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   800    // X, Y, Z acceleration for travel (non printing) moves
+*/
+
+/*
+// Silverquark
+#define DEFAULT_ACCELERATION          800    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  800    // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   800    // X, Y, Z acceleration for travel (non printing) moves
+*/
+
+// Customised (advi3pp) - Unsure about that acceleration for a Titan
+#define DEFAULT_ACCELERATION          800    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  3000   // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   800    // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk limits (mm/s)
@@ -796,9 +890,19 @@
  */
 //#define CLASSIC_JERK
 #if ENABLED(CLASSIC_JERK)
+  /*
+  // SKR Default
   #define DEFAULT_XJERK 10.0
   #define DEFAULT_YJERK 10.0
   #define DEFAULT_ZJERK  0.3
+  */
+
+  // Customised
+  // Silverquark uses classic jerk settings (below),
+  // but advi3pp uses "Junction Deviation Factor", and so shall we.
+  #define DEFAULT_XJERK 8.0
+  #define DEFAULT_YJERK 8.0
+  #define DEFAULT_ZJERK 0.4
 
   //#define TRAVEL_EXTRA_XYJERK 0.0     // Additional jerk allowance for all travel moves
 
@@ -808,7 +912,10 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    5.0  // May be used by Linear Advance
+// SKR Default
+//#define DEFAULT_EJERK    5.0  // May be used by Linear Advance
+// Customised (advi3pp & Silverquark)
+#define DEFAULT_EJERK    1.0  // May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -818,7 +925,8 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.08 // (mm) Distance from real junction edge
+  //#define JUNCTION_DEVIATION_MM 0.08 // (mm) Distance from real junction edge
+  #define JUNCTION_DEVIATION_MM 0.013 // Customised (advi3pp)
   #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
                                       // for small segments (< 1mm) with large junction angles (> 135°).
 #endif
@@ -831,7 +939,27 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-#define S_CURVE_ACCELERATION
+// Customised (not)
+// advi3pp disables this feature because it "does not work well with Linear Advance"
+// Leaving enabled for now...
+#define S_CURVE_ACCELERATION  // SKR Default
+
+/**
+* Customised:
+* Cribbed form Silverquark's Configuration.h, but currently unused
+* Default Preheating Presets
+* Specific to i3Plus+
+*
+* Will be the default values in the preheat menu
+**/
+/*
+#define DEFAULT_PREHEAT_PRESET1_HOTEND  180    // Preheat Presets
+#define DEFAULT_PREHEAT_PRESET1_BED  50
+#define DEFAULT_PREHEAT_PRESET2_HOTEND  220
+#define DEFAULT_PREHEAT_PRESET2_BED  60
+#define DEFAULT_PREHEAT_PRESET3_HOTEND  200
+#define DEFAULT_PREHEAT_PRESET3_BED  60
+*/
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -846,8 +974,18 @@
  * Enable this option for a probe connected to the Z-MIN pin.
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
+ * 
+ *  Customised:
+ *  SKR Default - enabled
+ *  Advi3pp - enabled (in some builds with bltouch?)
+ *  Silverquark - disabled
+ * 
+ *  Standard v1 Wanhao Duplicator i3 Plus does *not* have a z-probe
+ *  so disabling for now...
+ * 
+ *  Will need to add custom code and settings for any z-probes
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
 //#define USE_PROBE_FOR_Z_HOMING
@@ -881,9 +1019,14 @@
  * The "Manual Probe" provides a means to do "Auto" Bed Leveling without a probe.
  * Use G29 repeatedly, adjusting the Z height at each point with movement commands
  * or (with LCD_BED_LEVELING) the LCD controller.
+ * 
+ * SKR Default - disabled
+ * Customised - enabled
+ * Wanhao Duplicator i3 Plus uses manual probing in the OEM firmware
+ * so enabling for now...
  */
-//#define PROBE_MANUALLY
-//#define MANUAL_PROBE_START_Z 0.2
+#define PROBE_MANUALLY
+#define MANUAL_PROBE_START_Z 0.2
 
 /**
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
@@ -982,15 +1125,23 @@
  *   (0,0)
  *
  * Specify a Probe position as { X, Y, Z }
+ * 
+ * Customised:
+ * This needs customisation for any attached z-probe
+ * Leaving unaltered of now, but including - disabled - values
+ * from Silverquark and advi3pp for reference
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }  // SKR Default
+//#define NOZZLE_TO_PROBE_OFFSET { -24.00, -38.00, 0 }  // advi3pp
+//#define NOZZLE_TO_PROBE_OFFSET { -10.00, -65.00, -2.4 }  // Silverquark
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
 #define PROBING_MARGIN 10
 
 // X and Y axis travel speed (mm/m) between probes
-#define XY_PROBE_SPEED 8000
+#define XY_PROBE_SPEED 8000  // SKR Default (& Silverquark)
+//#define XY_PROBE_SPEED 6000  // advi3pp
 
 // Feedrate (mm/m) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
@@ -1028,6 +1179,14 @@
 #define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
 #define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
 //#define Z_AFTER_PROBING           5 // Z position after probing is done
+
+/*
+// Customised (not) - advi3pp values for reference:
+#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow
+#define Z_CLEARANCE_BETWEEN_PROBES  5 // Z Clearance between probe points
+#define Z_CLEARANCE_MULTI_PROBE     5 // Z Clearance between multiple probes
+//#define Z_AFTER_PROBING           5 // Z position after probing is done
+*/
 
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
 
@@ -1090,7 +1249,9 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR true
+//#define INVERT_E0_DIR true  // SKR Default
+//#define INVERT_E0_DIR false  // Silverquark & advi3pp (and presumably Wanhao Default)
+#define INVERT_E0_DIR false  // Customised: Using value - probably - for Wanhao Di3+ (change for Titan?)
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
@@ -1105,10 +1266,26 @@
 
 //#define UNKNOWN_Z_NO_RAISE      // Don't raise Z (lower the bed) if Z is "unknown." For beds that fall when Z is powered off.
 
-//#define Z_HOMING_HEIGHT  4      // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+/*
+* Customised:
+* SKR Default - disabled
+* advi3pp - enabled
+* Silverquark - noncommital
+*
+* Enabling for now...
+*/
+#define Z_HOMING_HEIGHT  4      // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
                                   // Be sure to have this much clearance over your Z_MAX_POS to prevent grinding.
 
-//#define Z_AFTER_HOMING  10      // (mm) Height to move to after homing Z
+/*
+* Customised:
+* SKR Default - disabled
+* advi3pp - enabled
+* Silverquark - noncommital
+*
+* Enabling for now...
+*/
+#define Z_AFTER_HOMING  10      // (mm) Height to move to after homing Z
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
@@ -1118,17 +1295,24 @@
 
 // @section machine
 
-// The size of the print bed
-#define X_BED_SIZE 235
-#define Y_BED_SIZE 235
+/*
+* The size of the print bed
+* Customised: Using official Wanhao dimensions
+*/
+//#define X_BED_SIZE 235
+//#define Y_BED_SIZE 235
+#define X_BED_SIZE 200
+#define Y_BED_SIZE 200
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS 0
+//#define X_MIN_POS 0  // SKR (Marlin?) Default
+#define X_MIN_POS -5.0  // Customised (avi3pp)
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 250
+//#define Z_MAX_POS 250
+#define Z_MAX_POS 170  // Customised: Wanhao official is 180, but being conservative
 
 /**
  * Software Endstops
@@ -1389,7 +1573,23 @@
 #endif
 
 // Homing speeds (mm/m)
-#define HOMING_FEEDRATE_XY (20*60)
+/*
+* Customised:
+*
+* SKR Default:
+* #define HOMING_FEEDRATE_XY (20*60)
+* #define HOMING_FEEDRATE_Z  (4*60)
+*
+* advi3pp:
+* #define HOMING_FEEDRATE_XY 6000
+* #define HOMING_FEEDRATE_Z  1200
+*
+* Silverquark:
+* #define HOMING_FEEDRATE_XY (50*60)
+* #define HOMING_FEEDRATE_Z  (4*60)
+*/
+// Conservative (Silverquark):
+#define HOMING_FEEDRATE_XY (50*60)
 #define HOMING_FEEDRATE_Z  (4*60)
 
 // Validate that endstops are triggered on homing moves
@@ -1498,6 +1698,8 @@
 // @section temperature
 
 // Preheat Constants
+// SKR Defaults
+/*
 #define PREHEAT_1_LABEL       "PLA"
 #define PREHEAT_1_TEMP_HOTEND 185
 #define PREHEAT_1_TEMP_BED     45
@@ -1507,6 +1709,57 @@
 #define PREHEAT_2_TEMP_HOTEND 240
 #define PREHEAT_2_TEMP_BED    0
 #define PREHEAT_2_FAN_SPEED     255 // Value from 0 to 255
+*/
+
+// Silverquark
+/*
+#define PREHEAT_1_TEMP_HOTEND 180
+#define PREHEAT_1_TEMP_BED     60
+#define PREHEAT_1_FAN_SPEED   255 // Value from 0 to 255
+
+#define PREHEAT_2_TEMP_HOTEND 230
+#define PREHEAT_2_TEMP_BED    100
+#define PREHEAT_2_FAN_SPEED   255 // Value from 0 to 255
+*/
+
+// advi3pp
+/*
+#define PREHEAT_1_LABEL       "Preheat1"
+#define PREHEAT_1_TEMP_HOTEND 180
+#define PREHEAT_1_TEMP_BED     50
+#define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_2_LABEL       "Preheat2"
+#define PREHEAT_2_TEMP_HOTEND 200
+#define PREHEAT_2_TEMP_BED     60
+#define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_3_LABEL       "Preheat3"
+#define PREHEAT_3_TEMP_HOTEND 220
+#define PREHEAT_3_TEMP_BED     70
+#define PREHEAT_3_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_4_LABEL       "Preheat4"
+#define PREHEAT_4_TEMP_HOTEND 180
+#define PREHEAT_4_TEMP_BED      0
+#define PREHEAT_4_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_5_LABEL       "Preheat5"
+#define PREHEAT_5_TEMP_HOTEND 200
+#define PREHEAT_5_TEMP_BED      0
+#define PREHEAT_5_FAN_SPEED     0 // Value from 0 to 255
+*/
+
+// Customised: Guesswork (from memory...)
+#define PREHEAT_1_LABEL       "PLA"
+#define PREHEAT_1_TEMP_HOTEND  210
+#define PREHEAT_1_TEMP_BED      60
+#define PREHEAT_1_FAN_SPEED      0  // Value from 0 to 255
+
+#define PREHEAT_2_LABEL       "ABS"
+#define PREHEAT_2_TEMP_HOTEND  240
+#define PREHEAT_2_TEMP_BED       0
+#define PREHEAT_2_FAN_SPEED      0  // Value from 0 to 255
 
 /**
  * Nozzle Park
@@ -1518,8 +1771,13 @@
  *    P0  (Default) If Z is below park Z raise the nozzle.
  *    P1  Raise the nozzle always to Z-park height.
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
+ * 
+ * Customised:
+ * SKR Default & Silverquark - disabled
+ * advi3pp - enabled
+ * Customised - enabled for now...
  */
-//#define NOZZLE_PARK_FEATURE
+#define NOZZLE_PARK_FEATURE
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
@@ -1768,6 +2026,9 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
+// Customised:
+// advi3pp and Silverquark ahe this disabled, but SKR Default is enabled
+// Leaving enabled for now...
 #define INDIVIDUAL_AXIS_HOMING_MENU
 
 //
